@@ -22,6 +22,13 @@ import java.util.concurrent.ConcurrentMap;
 final class Protobuf {
   private static final Protobuf INSTANCE = new Protobuf();
 
+  // short circuit the full runtime support via assumevalues trickery
+  // this value should only be set to true via AppReduce -assumevalues
+  // directives when doing whole program optimization of Android applications
+  // to enable discarding of full runtime support.
+  @SuppressWarnings("JavaOptionalSuggestions")
+  static boolean assumeLiteRuntime = false;
+
   private final SchemaFactory schemaFactory;
 
   // TODO: Consider using ClassValue instead.
